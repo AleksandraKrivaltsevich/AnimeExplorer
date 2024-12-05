@@ -2,14 +2,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import { Outlet } from 'react-router-dom';
+import Modal from "./components/Modal/Modal.jsx";
 
 const Home = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleSearch = (e) => {
         e.preventDefault();
-        if (searchTerm.trim() === '') return; // Игнорируем пустую строку
+        if (searchTerm.trim() === '' || searchTerm.length < 2) {
+            setIsModalOpen(true);
+            return;
+        }
         navigate(`/search?search=${encodeURIComponent(searchTerm.trim())}`); // Кодируем строку поиска
     };
 
@@ -39,6 +44,13 @@ const Home = () => {
             <main>
                 <Outlet />
             </main>
+            {/* Модальное окно */}
+            {isModalOpen && (
+                <Modal onClose={() => setIsModalOpen(false)}>
+                    <h3>Invalid Search</h3>
+                    <p>Your search query must be at least 3 characters long.</p>
+                </Modal>
+            )}
         </div>
     );
 };

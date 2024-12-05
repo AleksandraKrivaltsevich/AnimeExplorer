@@ -58,6 +58,7 @@
     color: #a0d754;
     font-family: "Bebas Neue", sans-serif;
 }
+
 .button:hover {
     box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.2);
     transform: translateY(-1px);

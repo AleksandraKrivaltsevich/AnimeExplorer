@@ -1,0 +1,92 @@
+.filterContainer {
+    display: flex;
+    max-width: 400px;
+    flex-direction: column;
+}
+
+.filterControls {
+    padding: 16px;
+    margin-bottom: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.filterLabel {
+    margin-bottom: 15px;
+    display: block;
+}
+
+.slider {
+    width: calc(100% - 40px);
+    height: 10px;
+    margin: 0 20px;
+}
+
+.thumb {
+    background-color: #a0d754;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -8px;
+    border: 2px solid #5d1da7;
+}
+
+.track {
+    margin-bottom: 10px;
+    background-color: #ddd;
+    height: 5px;
+    width: auto;
+    border-radius: 15px;
+}
+
+.rangeDisplay {
+    margin-top: 15px;
+}
+
+.applyFilterBtn {
+    padding: 5px 10px;
+    margin: 10px;
+    cursor: pointer;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    background: #5d1da7;
+    color: #a0d754;
+    width: 222px;
+    border-radius: 4px;
+}
+
+.addFilterBtn {
+    padding: 5px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    background: #5d1da7;
+    color: #a0d754;
+    width: 215px;
+    border-radius: 4px;
+}
+
+.filters {
+    background-color: rgba(196, 196, 255, 0.48);
+    padding: 20px;
+    border-radius: 8px;
+    color: #090000;
+}
+
+@media (max-width: 900px) {
+    .addFilterBtn {
+        width: 100%;
+    }
+}

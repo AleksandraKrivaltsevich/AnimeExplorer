@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import React, { useState,  FormEvent} from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 import { Outlet } from 'react-router-dom';
-import Modal from "./components/Modal/Modal.jsx";
+import Modal from "./components/Modal/Modal";
 
-const Home = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const Home: React.FC = () => {
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (searchTerm.trim() === '' || searchTerm.length < 2) {
             setIsModalOpen(true);
             return;
         }
-        navigate(`/search?search=${encodeURIComponent(searchTerm.trim())}`); // Кодируем строку поиска
+        navigate(`/search?search=${encodeURIComponent(searchTerm.trim())}`);
     };
 
     return (

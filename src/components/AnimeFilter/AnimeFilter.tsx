@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 import styles from './AnimeFilter.module.css';
 
-const AnimeFilter = ({
-                         pendingEpisodeCountRange,
-                         setPendingEpisodeCountRange,
-                         pendingYearRange,
-                         setPendingYearRange,
-                         applyFilters,
-                     }) => {
-    const [showFilters, setShowFilters] = useState(false);
+interface AnimeFilterProps {
+    pendingEpisodeCountRange: [number, number];
+    setPendingEpisodeCountRange: (range: [number, number]) => void;
+    pendingYearRange: [number, number];
+    setPendingYearRange: (range: [number, number]) => void;
+    applyFilters: () => void;
+}
+
+const AnimeFilter: React.FC<AnimeFilterProps> = ({
+                                                     pendingEpisodeCountRange,
+                                                     setPendingEpisodeCountRange,
+                                                     pendingYearRange,
+                                                     setPendingYearRange,
+                                                     applyFilters,
+                                                 }) => {
+    const [showFilters, setShowFilters] = useState<boolean>(false);
 
     return (
         <div className={styles.filterContainer}>
@@ -32,9 +40,17 @@ const AnimeFilter = ({
                             min={0}
                             max={1000}
                             value={pendingEpisodeCountRange}
-                            onChange={(newRange) => setPendingEpisodeCountRange(newRange)}
-                            renderThumb={(props) => <div {...props}></div>}
-                            ariaLabelForHandle="Episode Range"
+                            onChange={(newRange: [number, number]) => setPendingEpisodeCountRange(newRange)}
+                            renderThumb={(props) => {
+                                const { key, ...restProps } = props;
+                                return (
+                                    <div
+                                        key={key}
+                                        {...restProps}
+                                        aria-label={`Episode Range: ${restProps['aria-valuenow']}`}
+                                    />
+                                );
+                            }}
                         />
                         <div className={styles.rangeDisplay}>
                             <span>{pendingEpisodeCountRange[0]}</span> -{' '}
@@ -52,9 +68,17 @@ const AnimeFilter = ({
                             min={1900}
                             max={new Date().getFullYear() + 2}
                             value={pendingYearRange}
-                            onChange={(newRange) => setPendingYearRange(newRange)}
-                            renderThumb={(props) => <div {...props}></div>}
-                            ariaLabelForHandle="Year Range"
+                            onChange={(newRange: [number, number]) => setPendingYearRange(newRange)}
+                            renderThumb={(props) => {
+                                const { key, ...restProps } = props;
+                                return (
+                                    <div
+                                        key={key}
+                                        {...restProps}
+                                        aria-label={`Year Range: ${restProps['aria-valuenow']}`}
+                                    />
+                                );
+                            }}
                         />
                         <div className={styles.rangeDisplay}>
                             <span>{pendingYearRange[0]}</span> -{' '}

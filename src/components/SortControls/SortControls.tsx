@@ -1,6 +1,12 @@
 import styles from './SortControls.module.css';
+import React from "react";
 
-const SortControls = ({ sortOrder, changeSort }) => {
+
+interface SortControlsProps {
+    sortOrder: string;
+    changeSort: (order: string) => void;
+}
+const SortControls:React.FC<SortControlsProps> = ({ sortOrder, changeSort }) => {
     return (
         <div className={styles.sortControls}>
             <button
@@ -26,3 +32,4 @@ const SortControls = ({ sortOrder, changeSort }) => {
 };
 
 export default SortControls;
+

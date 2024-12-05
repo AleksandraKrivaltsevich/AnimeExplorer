@@ -1,15 +1,39 @@
 import { useState, useEffect } from 'react';
-import { searchAnime } from '../../services/AnimeService.js';
+import { searchAnime } from '../../services/AnimeService';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './AnimeSearch.module.css';
 
+
+interface Anime {
+    id: string;
+    attributes: {
+        titles: {
+            en: string | null;
+            canonicalTitle: string | null;
+        };
+        posterImage: {
+            medium: string | null;
+        };
+        averageRating: string | null;
+        startDate: string | null;
+        synopsis: string | null;
+    };
+}
+
+
+interface ApiResponse {
+    data: Anime[] ;
+    meta: any;
+}
+
 const AnimeSearch = () => {
-    const [animeList, setAnimeList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [animeList, setAnimeList] = useState<Anime[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('search');
+    const searchQuery = searchParams.get('search') || '';
+
 
     useEffect(() => {
         if (searchQuery) {
@@ -17,12 +41,13 @@ const AnimeSearch = () => {
         }
     }, [searchQuery]);
 
-    const fetchAnime = async (query) => {
+    const fetchAnime = async (query: string) => {
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await searchAnime(query);
+            // @ts-ignore
+            const response: ApiResponse = await searchAnime(query);
             setAnimeList(response.data || []);
         } catch (err) {
             console.error('Error while searching anime:', err);
@@ -50,11 +75,11 @@ const AnimeSearch = () => {
                         <div key={anime.id} className={styles.animeCard}>
                             <img
                                 src={anime.attributes.posterImage?.medium || '/path/to/default-image.jpg'}
-                                alt={anime.attributes.titles.en || anime.attributes.canonicalTitle}
+                                alt={anime.attributes.titles?.en || anime.attributes.titles?.canonicalTitle || 'No title'}
                                 className={styles.animeImage}
                             />
                             <div className={styles.animeInfo}>
-                                <h3>{anime.attributes.titles.en || anime.attributes.canonicalTitle}</h3>
+                                <h3>{anime.attributes.titles?.en || anime.attributes.titles?.canonicalTitle || 'No title'}</h3>
                                 <p>Rating: {anime.attributes.averageRating || 'N/A'}</p>
                                 <p>Start Date: {anime.attributes.startDate || 'Unknown'}</p>
                                 <p>{anime.attributes.synopsis || 'No synopsis available.'}</p>
@@ -62,7 +87,7 @@ const AnimeSearch = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No anime found for &#34;{searchQuery}&#34;.</p>
+                    <p>No anime found for "{searchQuery}".</p>
                 )}
             </div>
         </div>

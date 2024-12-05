@@ -1,11 +1,18 @@
 import styles from './Modal.module.css';
+import React from "react";
 
-const Modal = ({ children, onClose }) => {
+
+interface ModalProps {
+    onClose: () => void;
+    children: React.ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
     return (
         <div className={styles.modalBackdrop} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 {children}
-                <button className={styles.closeButton} onClick={onClose}> X </button> {/* Кнопка закрытия с текстом X */}
+                <button className={styles.closeButton} onClick={onClose}> X </button>
             </div>
         </div>
     );

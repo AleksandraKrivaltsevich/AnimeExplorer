@@ -1,0 +1,69 @@
+.header {
+    width: 100%;
+    height: 300px; /* Высота header */
+    background-image: url('public/header.jpg'); /* Путь к картинке */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный слой */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.headerText {
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+}
+
+.form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.input {
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    border: 2px solid rgb(160, 215, 84);
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 5px 10px;
+    font-size: 16px;
+    background: #5d1da7;
+    text-align: center;
+    color: #a0d754;
+    font-family: "Bebas Neue", sans-serif;
+}
+.button:hover {
+    box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+
+
+
+

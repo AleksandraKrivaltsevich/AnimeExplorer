@@ -1,0 +1,19 @@
+.SortBtn {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #a1d955;
+    color: #000;
+    border: 2px solid #5e1da8;
+    cursor: pointer;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+}
+
+@media (max-width: 600px) {
+.sortControls {
+    display: flex;
+    flex-direction: column;
+    max-width: 200px;
+    margin: 0 auto
+  }
+}

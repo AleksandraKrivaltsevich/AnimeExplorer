@@ -18,11 +18,17 @@ const Home: React.FC = () => {
         navigate(`/search?search=${encodeURIComponent(searchTerm.trim())}`);
     };
 
+    const handleAnimeExplorerClick = () => {
+        navigate('/');
+    }
+
     return (
         <div>
             <header className={styles.header}>
                 <div className={styles.overlay}>
-                    <h1 className={styles.headerText}>Anime Explorer</h1>
+                    <h1 className={styles.headerText}
+                        onClick={handleAnimeExplorerClick}
+                    >Anime Explorer</h1>
                     <form className={styles.form} onSubmit={handleSearch}>
                         <input
                             className={styles.input}

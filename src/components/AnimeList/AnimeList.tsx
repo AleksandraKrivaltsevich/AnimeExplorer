@@ -46,8 +46,8 @@ const AnimeList = () => {
     // Filters
     const [episodeCountRange, setEpisodeCountRange] = useState<[number, number]>([0, 1000]);
     const [pendingEpisodeCountRange, setPendingEpisodeCountRange] = useState<[number, number]>([0, 1000]);
-    const [yearRange, setYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
-    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
+    const [yearRange, setYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
+    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
 
     const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
     const searchQuery = searchParams.get('search') || '';
@@ -70,7 +70,7 @@ const AnimeList = () => {
             if (minEpisodes !== 0 || maxEpisodes !== 1000) {
                 filters['filter[episodeCount]'] = `${minEpisodes}..${maxEpisodes}`;
             }
-            if (minYear !== 1900 || maxYear !== new Date().getFullYear()) {
+            if (minYear !== 1907 || maxYear !== new Date().getFullYear()) {
                 filters['filter[year]'] = `${minYear}..${maxYear}`;
             }
 

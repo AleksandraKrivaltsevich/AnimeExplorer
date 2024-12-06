@@ -71,7 +71,7 @@ const AnimeFilter: React.FC<AnimeFilterProps> = ({
                     />
                     <Slider
                         label="Years"
-                        min={1900}
+                        min={1907}
                         max={2025}
                         range={pendingYearRange}
                         setRange={setPendingYearRange}

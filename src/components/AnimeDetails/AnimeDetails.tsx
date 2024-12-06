@@ -8,10 +8,7 @@ interface Anime {
     id: string;
     type: string;
     attributes: {
-        titles: {
-            en: string | null;
-            canonicalTitle: string;
-        }
+        canonicalTitle: string;
         averageRating: string | null;
         episodeCount: number | null;
         status: 'finished' | 'ongoing' | string;
@@ -38,7 +35,7 @@ const AnimeDetails = () => {
             try {
                 console.log('Fetching anime details for id:', id);
                 const animeDetails = await fetchAnimeDetails(id);
-                console.log('Fetched anime details:', animeDetails); // Логируем результат
+                console.log('Fetched anime details:', animeDetails);
                 setAnime(animeDetails);
             } catch (error) {
                 console.error('Error loading anime details:', error);
@@ -53,21 +50,19 @@ const AnimeDetails = () => {
     if (loading) return <p>Loading...</p>;
     if (!anime) return <p>Anime not found</p>;
 
-    const { titles,} = anime.attributes;
-
     return (
         <div className={styles.detailsContainer}>
-            <h2>{titles.en || titles.canonicalTitle}</h2>
+            <h2>{anime.attributes.canonicalTitle}</h2>
             <img
                 src={anime.attributes.posterImage.large}
-                alt={titles.en || titles.canonicalTitle}
+                alt={anime.attributes.canonicalTitle}
                 className={styles.detailsImage}
             />
             <div className={styles.textBlock}>
                 <p>{anime.attributes.synopsis}</p>
                 <p>Rating: {anime.attributes.averageRating}</p>
                 <p>Episodes: {anime.attributes.episodeCount}</p>
-                {/*<p>Status: {status === 'finished' ? 'Finished' : 'Ongoing'}</p>*/}
+                <p>Status: {status === 'finished' ? 'Finished' : 'Ongoing'}</p>
                 <p>
                     {anime.attributes.startDate && anime.attributes.endDate
                         ? `Aired from ${anime.attributes.startDate} to ${anime.attributes.endDate}`

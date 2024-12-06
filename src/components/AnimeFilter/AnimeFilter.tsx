@@ -2,6 +2,38 @@ import React, { useState } from 'react';
 import ReactSlider from 'react-slider';
 import styles from './AnimeFilter.module.css';
 
+interface SliderProps {
+    label: string;
+    min: number;
+    max: number;
+    range: [number, number];
+    setRange: (range: [number, number]) => void;
+}
+
+const Slider: React.FC<SliderProps> = ({ label, min, max, range, setRange }) => (
+    <div className={styles.filterGroup}>
+        <label className={styles.filterLabel}>{label}:</label>
+        <ReactSlider
+            className={styles.slider}
+            thumbClassName={styles.thumb}
+            trackClassName={styles.track}
+            min={min}
+            max={max}
+            value={range}
+            onChange={(newRange) => setRange(newRange as [number, number])}
+            renderThumb={(props) => (
+                <div
+                    {...props}
+                    aria-label={`${label} Range: ${props['aria-valuenow']}`}
+                />
+            )}
+        />
+        <div className={styles.rangeDisplay}>
+            <span>{range[0]}</span> - <span>{range[1]}</span> {label}
+        </div>
+    </div>
+);
+
 interface AnimeFilterProps {
     pendingEpisodeCountRange: [number, number];
     setPendingEpisodeCountRange: (range: [number, number]) => void;
@@ -10,14 +42,13 @@ interface AnimeFilterProps {
     applyFilters: () => void;
 }
 
-const AnimeFilter: React.FC<AnimeFilterProps> = (
-    {
-        pendingEpisodeCountRange,
-        setPendingEpisodeCountRange,
-        pendingYearRange,
-        setPendingYearRange,
-        applyFilters,
-    }) => {
+const AnimeFilter: React.FC<AnimeFilterProps> = ({
+                                                     pendingEpisodeCountRange,
+                                                     setPendingEpisodeCountRange,
+                                                     pendingYearRange,
+                                                     setPendingYearRange,
+                                                     applyFilters,
+                                                 }) => {
     const [showFilters, setShowFilters] = useState<boolean>(false);
 
     return (
@@ -31,61 +62,20 @@ const AnimeFilter: React.FC<AnimeFilterProps> = (
 
             {showFilters && (
                 <div className={styles.filters}>
-                    {/* Episode Range Filter */}
-                    <div className={styles.filterGroup}>
-                        <label className={styles.filterLabel}>Episodes:</label>
-                        <ReactSlider
-                            className={styles.slider}
-                            thumbClassName={styles.thumb}
-                            trackClassName={styles.track}
-                            min={0}
-                            max={1000}
-                            value={pendingEpisodeCountRange}
-                            onChange={
-                            (newRange: [number, number]) => setPendingEpisodeCountRange(newRange)}
-                            renderThumb={(props) => {
-                                const { key, ...restProps } = props;
-                                return (
-                                    <div
-                                        key={key}
-                                        {...restProps}
-                                        aria-label={`Episode Range: ${restProps['aria-valuenow']}`}
-                                    />
-                                );
-                            }}
-                        />
-                        <div className={styles.rangeDisplay}>
-                            <span>{pendingEpisodeCountRange[0]}</span> -{' '}
-                            <span>{pendingEpisodeCountRange[1]}</span> Episodes
-                        </div>
-                    </div>{/* Year Range Filter */}
-                    <div className={styles.filterGroup}>
-                        <label className={styles.filterLabel}>Years:</label>
-                        <ReactSlider
-                            className={styles.slider}
-                            thumbClassName={styles.thumb}
-                            trackClassName={styles.track}
-                            min={1900}
-                            max={new Date().getFullYear()}
-                            value={pendingYearRange}
-                            onChange={(newRange: [number, number]) => setPendingYearRange(newRange)}
-                            renderThumb={(props) => {
-                                const { key, ...restProps } = props;
-                                return (
-                                    <div
-                                        key={key}
-                                        {...restProps}
-                                        aria-label={`Year Range: ${restProps['aria-valuenow']}`}
-                                    />
-                                );
-                            }}
-                        />
-                        <div className={styles.rangeDisplay}>
-                            <span>{pendingYearRange[0]}</span> -{' '}
-                            <span>{pendingYearRange[1]}</span> Years
-                        </div>
-                    </div>
-
+                    <Slider
+                        label="Episodes"
+                        min={0}
+                        max={300}
+                        range={pendingEpisodeCountRange}
+                        setRange={setPendingEpisodeCountRange}
+                    />
+                    <Slider
+                        label="Years"
+                        min={1900}
+                        max={2025}
+                        range={pendingYearRange}
+                        setRange={setPendingYearRange}
+                    />
                     <button
                         className={styles.applyFilterBtn}
                         onClick={applyFilters}

@@ -17,18 +17,14 @@ interface Anime {
     id: string;
     type: string;
     attributes: {
-        titles: {
-            en: string | null
-        };
-        synopsis: string | null;
+        canonicalTitle: string | null;
         status: string;
         startDate: string | null;
-        endDate: string | null;
-        ratingRank: number | null;
         posterImage: {
             medium: string ;
         };
         averageRating: string | null;
+
     };
 }
 
@@ -53,7 +49,7 @@ const AnimeList = () => {
     const [yearRange, setYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
     const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
 
-    const pageFromUrl = parseInt(searchParams.get('page') || '1', 15);
+    const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
     const searchQuery = searchParams.get('search') || '';
     const sortOrder = searchParams.get('sort') || '';
 
@@ -66,7 +62,7 @@ const AnimeList = () => {
         setLoading(true);
         setError(null);
         try {
-            const offset = (page) * limit;
+            const offset = (page - 1) * limit;
             const filters: Filters = {};
             const [minEpisodes, maxEpisodes] = episodeRange;
             const [minYear, maxYear] = yearRange;
@@ -131,12 +127,14 @@ const AnimeList = () => {
 
     const changeSort = (newSort: string) => {
         setSearchParams({
+            page: '1',
             search: searchQuery,
             sort: newSort,
             episodes: episodeCountRange.join('..'),
             years: yearRange.join('..'),
         });
     };
+
 
     if (loading) return <LoadingIndicator />;
     if (error) return <p>{error}</p>;
@@ -155,7 +153,6 @@ const AnimeList = () => {
             <SortControls sortOrder={sortOrder} changeSort={changeSort} />
             <div className={styles.animeList}>
                 {animeList.map((anime) => (
-                    // @ts-ignore
                     <AnimeCard key={anime.id} anime={anime} />
                 ))}
                 {animeList.length === 0 && <p>No anime found.</p>}

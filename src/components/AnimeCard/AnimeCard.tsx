@@ -5,10 +5,7 @@ import React from 'react';
 interface Anime {
     id: string;
     attributes: {
-        titles: {
-            en: string | null;
-            canonicalTitle: string | null;
-        };
+        canonicalTitle: string | null;
         posterImage: {
             medium: string | null;
         };
@@ -23,7 +20,7 @@ interface AnimeCardProps {
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
     const posterImage = anime.attributes.posterImage?.medium || '/path/to/default-image.jpg';
-    const title = anime.attributes.titles.en || anime.attributes.titles.canonicalTitle || 'No Title';
+    const title = anime.attributes.canonicalTitle || 'No Title';
     const rating = anime.attributes.averageRating || 'N/A';
     const startDate = anime.attributes.startDate || 'Unknown';
 

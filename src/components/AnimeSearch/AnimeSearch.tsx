@@ -12,10 +12,7 @@ interface ApiResponse {
 interface Anime {
     id: string;
     attributes: {
-        titles: {
-            en: string | null;
-            canonicalTitle: string | null;
-        };
+        canonicalTitle: string | null;
         posterImage: {
             medium: string | null;
         };
@@ -74,13 +71,11 @@ const AnimeSearch = () => {
                             <img
                                 src={anime.attributes.posterImage?.medium
                                     || '/path/to/default-image.jpg'}
-                                alt={anime.attributes.titles?.en
-                                    || anime.attributes.titles?.canonicalTitle || 'No title'}
+                                alt={anime.attributes.canonicalTitle || 'No title'}
                                 className={styles.animeImage}
                             />
                             <div className={styles.animeInfo}>
-                                <h3>{anime.attributes.titles?.en
-                                    || anime.attributes.titles?.canonicalTitle || 'No title'}</h3>
+                                <h3>{anime.attributes.canonicalTitle || 'No title'}</h3>
                                 <p>Rating: {anime.attributes.averageRating || 'N/A'}</p>
                                 <p>Start Date: {anime.attributes.startDate || 'Unknown'}</p>
                                 <p>{anime.attributes.synopsis || 'No synopsis available.'}</p>

@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from 'axios';
 
 const API_BASE_URL = 'https://kitsu.io/api/edge';
 
@@ -12,16 +11,12 @@ interface Anime {
     id: string;
     type: string;
     attributes:{
-        titles: {
-            en: string | null;
-            canonicalTitle: string;
-        };
+        canonicalTitle: string;
         episodeCount: number | null;
         synopsis: string | null;
         status: 'finished' | 'ongoing' | string;
         startDate: string | null;
         endDate: string | null;
-        ratingRank: number | null;
         posterImage: {
             large: string;
             medium: string;
@@ -38,25 +33,30 @@ interface FetchAnimeListParams {
 
 const fetchFromApi = async (params: FetchAnimeListParams): Promise<ApiResponse> => {
     try {
-        const response: AxiosResponse<ApiResponse> =
-            await axios.get(`${API_BASE_URL}/anime`, { params });
+        const queryString = new URLSearchParams(params).toString();
+        const response = await fetch(`${API_BASE_URL}/anime?${queryString}`);
+
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+
+        const data: ApiResponse = await response.json();
         return {
-            data: response.data.data,
-            meta: response.data.meta,
+            data: data.data,
+            meta: data.meta,
         };
     } catch (error) {
         console.error('Error fetching data from API:', error);
         throw error;
     }
 };
-
 // Функция для получения списка аниме
 export const fetchAnimeList = async (
     limit = 20,
     offset = 0,
     filters: Partial<FetchAnimeListParams> = { 'page[limit]': limit, 'page[offset]': offset }
 ): Promise<ApiResponse> => {
-    const allowedSorts = ['startDate', '-startDate', 'ratingRank'];
+    const allowedSorts = ['startDate', '-startDate', '-averageRating'];
     const sort = filters.sort || '';
 
     // Validate sort parameter
@@ -90,13 +90,17 @@ export const searchAnime = async (
     return fetchFromApi(params);
 };
 
-// Исправленная функция получения деталей аниме
-export const fetchAnimeDetails = async (id: string) => {
+export const fetchAnimeDetails = async (id: string): Promise<Anime> => {
     try {
-        const response: AxiosResponse<{ data: Anime }> =
-            await axios.get(`${API_BASE_URL}/anime/${id}`);
-        console.log('API response:', response.data); // Логируем весь ответ
-        return response.data.data; // Здесь мы возвращаем объект из data
+        const response = await fetch(`${API_BASE_URL}/anime/${id}`);
+
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('API response:', data); // Log the entire response
+        return data.data; // Return the Anime object from the data
     } catch (error) {
         console.error(`Error fetching anime details for ID: ${id}`, error);
         throw error;

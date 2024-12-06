@@ -22,8 +22,8 @@ const SortControls:React.FC<SortControlsProps> = ({ sortOrder, changeSort }) => 
                 Sort by Oldest
             </button>
             <button
-                className={`${styles.SortBtn} ${sortOrder === 'ratingRank' ? styles.active : ''}`}
-                onClick={() => changeSort('ratingRank')}
+                className={`${styles.SortBtn} ${sortOrder === '-averageRating' ? styles.active : ''}`}
+                onClick={() => changeSort('-averageRating')}
             >
                 Sort by Top Rated
             </button>

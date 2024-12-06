@@ -8,30 +8,27 @@ import AnimeCard from '../AnimeCard/AnimeCard';
 import Pagination from '../Pagination/Pagination';
 import styles from './AnimeList.module.css';
 
+interface ApiResponse {
+    data: Anime[];
+    meta: any;
+}
 
 interface Anime {
     id: string;
     type: string;
     attributes: {
-        titles: { en: string | null };
+        titles: {
+            en: string | null
+        };
         synopsis: string | null;
         status: string;
         startDate: string | null;
         endDate: string | null;
         ratingRank: number | null;
-        posterImage: { medium: string | null };
+        posterImage: {
+            medium: string ;
+        };
         averageRating: string | null;
-    };
-}
-
-interface Meta {
-    count: number;
-}
-
-interface ApiResponse {
-    data: Anime[];
-    meta: {
-        count: number;
     };
 }
 
@@ -54,13 +51,18 @@ const AnimeList = () => {
     const [episodeCountRange, setEpisodeCountRange] = useState<[number, number]>([0, 1000]);
     const [pendingEpisodeCountRange, setPendingEpisodeCountRange] = useState<[number, number]>([0, 1000]);
     const [yearRange, setYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
-    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1900, new Date().getFullYear() + 2]);
+    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1900, new Date().getFullYear()]);
 
-    const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+    const pageFromUrl = parseInt(searchParams.get('page') || '1', 15);
     const searchQuery = searchParams.get('search') || '';
     const sortOrder = searchParams.get('sort') || '';
 
-    const loadAnime = async (page:  number, search: string, sort: string, episodeRange: [number, number], yearRange: [number, number]) => {
+    const loadAnime = async (
+        page:  number,
+        search: string,
+        sort: string,
+        episodeRange: [number, number],
+        yearRange: [number, number]) => {
         setLoading(true);
         setError(null);
         try {
@@ -72,16 +74,16 @@ const AnimeList = () => {
             if (minEpisodes !== 0 || maxEpisodes !== 1000) {
                 filters['filter[episodeCount]'] = `${minEpisodes}..${maxEpisodes}`;
             }
-            if (minYear !== 1900 || maxYear !== new Date().getFullYear() + 2) {
+            if (minYear !== 1900 || maxYear !== new Date().getFullYear()) {
                 filters['filter[year]'] = `${minYear}..${maxYear}`;
             }
 
-            let result: ApiResponse | null = null;
+            let result: ApiResponse ;
             if (search.trim()) {
-                // @ts-ignore
+
                 result = await searchAnime(search, limit, offset);
             } else {
-                // @ts-ignore
+
                 result = await fetchAnimeList(limit, offset, {
                     ...filters,
                     sort: sort,
@@ -103,14 +105,12 @@ const AnimeList = () => {
     };
 
     useEffect(() => {
-        loadAnime(pageFromUrl, searchQuery, sortOrder, episodeCountRange, yearRange);
+        void loadAnime(pageFromUrl, searchQuery, sortOrder, episodeCountRange, yearRange);
     }, [pageFromUrl, searchQuery, sortOrder, episodeCountRange, yearRange]);
-
     const applyFilters = () => {
         setEpisodeCountRange(pendingEpisodeCountRange);
         setYearRange(pendingYearRange);
         setSearchParams({
-            page: '1',
             search: searchQuery,
             sort: sortOrder,
             episodes: pendingEpisodeCountRange.join('..'),
@@ -131,7 +131,6 @@ const AnimeList = () => {
 
     const changeSort = (newSort: string) => {
         setSearchParams({
-            page: '1',
             search: searchQuery,
             sort: newSort,
             episodes: episodeCountRange.join('..'),
@@ -167,4 +166,3 @@ const AnimeList = () => {
 };
 
 export default AnimeList;
-

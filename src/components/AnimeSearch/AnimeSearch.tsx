@@ -4,6 +4,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './AnimeSearch.module.css';
 
 
+interface ApiResponse {
+    data: Anime[] ;
+    meta: any;
+}
+
 interface Anime {
     id: string;
     attributes: {
@@ -20,12 +25,6 @@ interface Anime {
     };
 }
 
-
-interface ApiResponse {
-    data: Anime[] ;
-    meta: any;
-}
-
 const AnimeSearch = () => {
     const [animeList, setAnimeList] = useState<Anime[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,7 +36,7 @@ const AnimeSearch = () => {
 
     useEffect(() => {
         if (searchQuery) {
-            fetchAnime(searchQuery);
+            void fetchAnime(searchQuery);
         }
     }, [searchQuery]);
 
@@ -46,7 +45,6 @@ const AnimeSearch = () => {
         setError(null);
 
         try {
-            // @ts-ignore
             const response: ApiResponse = await searchAnime(query);
             setAnimeList(response.data || []);
         } catch (err) {
@@ -74,12 +72,15 @@ const AnimeSearch = () => {
                     animeList.map((anime) => (
                         <div key={anime.id} className={styles.animeCard}>
                             <img
-                                src={anime.attributes.posterImage?.medium || '/path/to/default-image.jpg'}
-                                alt={anime.attributes.titles?.en || anime.attributes.titles?.canonicalTitle || 'No title'}
+                                src={anime.attributes.posterImage?.medium
+                                    || '/path/to/default-image.jpg'}
+                                alt={anime.attributes.titles?.en
+                                    || anime.attributes.titles?.canonicalTitle || 'No title'}
                                 className={styles.animeImage}
                             />
                             <div className={styles.animeInfo}>
-                                <h3>{anime.attributes.titles?.en || anime.attributes.titles?.canonicalTitle || 'No title'}</h3>
+                                <h3>{anime.attributes.titles?.en
+                                    || anime.attributes.titles?.canonicalTitle || 'No title'}</h3>
                                 <p>Rating: {anime.attributes.averageRating || 'N/A'}</p>
                                 <p>Start Date: {anime.attributes.startDate || 'Unknown'}</p>
                                 <p>{anime.attributes.synopsis || 'No synopsis available.'}</p>

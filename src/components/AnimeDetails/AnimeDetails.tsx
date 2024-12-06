@@ -3,31 +3,29 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchAnimeDetails } from '../../services/AnimeService';
 import styles from './AnimeDetails.module.css';
 
-interface AnimeAttributes {
-    titles: {
-        en: string | null;
-        canonicalTitle: string;
-    };
-    averageRating: string | null;
-    episodeCount: number;
-    status: 'finished' | 'ongoing' | string;
-    startDate: string | null;
-    endDate: string | null;
-    synopsis: string;
-    posterImage: {
-        large: string;
-    };
-}
 
 interface Anime {
     id: string;
     type: string;
-    attributes: AnimeAttributes;
+    attributes: {
+        titles: {
+            en: string | null;
+            canonicalTitle: string;
+        }
+        averageRating: string | null;
+        episodeCount: number | null;
+        status: 'finished' | 'ongoing' | string;
+        startDate: string | null;
+        endDate: string | null;
+        synopsis: string | null;
+        posterImage: {
+            large: string;
+        }
+    }
 }
-
 const AnimeDetails = () => {
     const { id } = useParams<{ id: string }>();
-    const [anime, setAnime] = useState<Anime | null>(null);
+    const [anime, setAnime] = useState<Anime >();
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -41,7 +39,6 @@ const AnimeDetails = () => {
                 console.log('Fetching anime details for id:', id);
                 const animeDetails = await fetchAnimeDetails(id);
                 console.log('Fetched anime details:', animeDetails); // Логируем результат
-                // @ts-ignore
                 setAnime(animeDetails);
             } catch (error) {
                 console.error('Error loading anime details:', error);
@@ -50,30 +47,30 @@ const AnimeDetails = () => {
             }
         };
 
-        loadAnimeDetails();
+        void loadAnimeDetails();
     }, [id]);
 
     if (loading) return <p>Loading...</p>;
     if (!anime) return <p>Anime not found</p>;
 
-    const { titles, averageRating, episodeCount, status, startDate, endDate, synopsis, posterImage } = anime.attributes;
+    const { titles,} = anime.attributes;
 
     return (
         <div className={styles.detailsContainer}>
             <h2>{titles.en || titles.canonicalTitle}</h2>
             <img
-                src={posterImage.large}
+                src={anime.attributes.posterImage.large}
                 alt={titles.en || titles.canonicalTitle}
                 className={styles.detailsImage}
             />
             <div className={styles.textBlock}>
-                <p>{synopsis}</p>
-                <p>Rating: {averageRating}</p>
-                <p>Episodes: {episodeCount}</p>
-                <p>Status: {status === 'finished' ? 'Finished' : 'Ongoing'}</p>
+                <p>{anime.attributes.synopsis}</p>
+                <p>Rating: {anime.attributes.averageRating}</p>
+                <p>Episodes: {anime.attributes.episodeCount}</p>
+                {/*<p>Status: {status === 'finished' ? 'Finished' : 'Ongoing'}</p>*/}
                 <p>
-                    {startDate && endDate
-                        ? `Aired from ${startDate} to ${endDate}`
+                    {anime.attributes.startDate && anime.attributes.endDate
+                        ? `Aired from ${anime.attributes.startDate} to ${anime.attributes.endDate}`
                         : 'Airing date not available'}
                 </p>
             </div>

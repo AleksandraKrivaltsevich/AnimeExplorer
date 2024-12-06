@@ -10,13 +10,14 @@ interface AnimeFilterProps {
     applyFilters: () => void;
 }
 
-const AnimeFilter: React.FC<AnimeFilterProps> = ({
-                                                     pendingEpisodeCountRange,
-                                                     setPendingEpisodeCountRange,
-                                                     pendingYearRange,
-                                                     setPendingYearRange,
-                                                     applyFilters,
-                                                 }) => {
+const AnimeFilter: React.FC<AnimeFilterProps> = (
+    {
+        pendingEpisodeCountRange,
+        setPendingEpisodeCountRange,
+        pendingYearRange,
+        setPendingYearRange,
+        applyFilters,
+    }) => {
     const [showFilters, setShowFilters] = useState<boolean>(false);
 
     return (
@@ -40,7 +41,8 @@ const AnimeFilter: React.FC<AnimeFilterProps> = ({
                             min={0}
                             max={1000}
                             value={pendingEpisodeCountRange}
-                            onChange={(newRange: [number, number]) => setPendingEpisodeCountRange(newRange)}
+                            onChange={
+                            (newRange: [number, number]) => setPendingEpisodeCountRange(newRange)}
                             renderThumb={(props) => {
                                 const { key, ...restProps } = props;
                                 return (
@@ -56,9 +58,7 @@ const AnimeFilter: React.FC<AnimeFilterProps> = ({
                             <span>{pendingEpisodeCountRange[0]}</span> -{' '}
                             <span>{pendingEpisodeCountRange[1]}</span> Episodes
                         </div>
-                    </div>
-
-                    {/* Year Range Filter */}
+                    </div>{/* Year Range Filter */}
                     <div className={styles.filterGroup}>
                         <label className={styles.filterLabel}>Years:</label>
                         <ReactSlider
@@ -66,7 +66,7 @@ const AnimeFilter: React.FC<AnimeFilterProps> = ({
                             thumbClassName={styles.thumb}
                             trackClassName={styles.track}
                             min={1900}
-                            max={new Date().getFullYear() + 2}
+                            max={new Date().getFullYear()}
                             value={pendingYearRange}
                             onChange={(newRange: [number, number]) => setPendingYearRange(newRange)}
                             renderThumb={(props) => {

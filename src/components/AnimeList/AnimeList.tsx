@@ -44,8 +44,8 @@ const AnimeList = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     // Filters
-    const [episodeCountRange, setEpisodeCountRange] = useState<[number, number]>([0, 1000]);
-    const [pendingEpisodeCountRange, setPendingEpisodeCountRange] = useState<[number, number]>([0, 1000]);
+    const [episodeCountRange, setEpisodeCountRange] = useState<[number, number]>([0, 300]);
+    const [pendingEpisodeCountRange, setPendingEpisodeCountRange] = useState<[number, number]>([0, 300]);
     const [yearRange, setYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
     const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
 

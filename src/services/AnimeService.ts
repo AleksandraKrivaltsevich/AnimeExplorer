@@ -1,4 +1,3 @@
-
 const API_BASE_URL = 'https://kitsu.io/api/edge';
 
 

@@ -1,0 +1,35 @@
+.filterGroup {
+    margin-bottom: 1rem;
+}
+
+.filterLabel {
+    margin-bottom: 15px;
+    display: block;
+}
+
+.slider {
+    width: calc(100% - 40px);
+    height: 10px;
+    margin: 0 20px;
+}
+
+.thumb {
+    background-color: #a0d754;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -8px;
+    border: 2px solid #5d1da7;
+}
+
+.track {
+    margin-bottom: 10px;
+    background-color: #ddd;
+    height: 5px;
+    width: auto;
+    border-radius: 15px;
+}

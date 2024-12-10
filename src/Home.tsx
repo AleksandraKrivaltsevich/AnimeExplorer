@@ -54,7 +54,7 @@ const Home: React.FC = () => {
             {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)}>
                     <h3>Invalid Search</h3>
-                    <p>Your search query must be at least 3 characters long.</p>
+                    <p>Your search query must be at least 2 characters long.</p>
                 </Modal>
             )}
         </div>

@@ -1,3 +1,5 @@
+"use client"
+
 const API_BASE_URL = 'https://kitsu.io/api/edge';
 
 
@@ -32,6 +34,8 @@ interface FetchAnimeListParams {
 
 const fetchFromApi = async (params: FetchAnimeListParams): Promise<ApiResponse> => {
     try {
+        // 	params = { 'page[limit]': 20, 'page[offset]': 0 };
+        // 	queryString = 'page[limit]=20&page[offset]=0';
         const queryString = new URLSearchParams(params).toString();
         const response = await fetch(`${API_BASE_URL}/anime?${queryString}`);
 
@@ -88,6 +92,10 @@ export const searchAnime = async (
 
     return fetchFromApi(params);
 };
+
+
+"use server"
+
 
 export const fetchAnimeDetails = async (id: string): Promise<Anime> => {
     try {

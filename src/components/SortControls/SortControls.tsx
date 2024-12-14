@@ -6,7 +6,7 @@ interface SortControlsProps {
     sortOrder: string;
     changeSort: (order: string) => void;
 }
-const SortControls:React.FC<SortControlsProps> = ({ sortOrder, changeSort }) => {
+const SortControls:React.FC<SortControlsProps> = ({ sortOrder, changeSort } : SortControlsProps) => { //props.sortOrder и props.changeSort
     return (
         <div className={styles.sortControls}>
             <button

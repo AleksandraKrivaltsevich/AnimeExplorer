@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactSlider from 'react-slider';
 import styles from './Slider.module.css';
 
@@ -21,12 +21,17 @@ const Slider: React.FC<SliderProps> = ({ label, min, max, range, setRange }) => 
             max={max}
             value={range}
             onChange={(newRange) => setRange(newRange as [number, number])}
-            renderThumb={(props) => (
-                <div
-                    {...props}
-                    aria-label={`${label} Range: ${props['aria-valuenow']}`}
-                />
-            )}
+            renderThumb={(props) => {
+                const { key, ...rest} = props;
+                return (
+                    <div
+                        key={key}
+                        {...rest}
+                        aria-label={`${label} Range: ${props['aria-valuenow']}`}
+                    />
+                )
+
+            }}
         />
         <div className={styles.rangeDisplay}>
             <span>{range[0]}</span> - <span>{range[1]}</span> {label}

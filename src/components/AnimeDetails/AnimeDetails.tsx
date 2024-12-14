@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';  //Link создания ссылок между страницами
 import { fetchAnimeDetails } from '../../services/AnimeService';
 import styles from './AnimeDetails.module.css';
 
@@ -21,7 +21,7 @@ interface Anime {
     }
 }
 const AnimeDetails = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>(); //получить параметры из URL
     const [anime, setAnime] = useState<Anime >();
     const [loading, setLoading] = useState<boolean>(true);
 

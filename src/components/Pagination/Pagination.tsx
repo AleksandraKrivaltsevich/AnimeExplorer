@@ -8,7 +8,7 @@ interface PaginationProps {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-    const generatePageNumbers = () => {
+    const generatePageNumbers= () => {
         const pages = [];
         const delta = 1;
 

@@ -45,9 +45,10 @@ const AnimeList = () => {
 
     // Filters
     const [episodeCountRange, setEpisodeCountRange] = useState<[number, number]>([0, 300]);
+    //значения фильтров, которые пользователь ещё не применил
     const [pendingEpisodeCountRange, setPendingEpisodeCountRange] = useState<[number, number]>([0, 300]);
-    const [yearRange, setYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
-    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1907, new Date().getFullYear()]);
+    const [yearRange, setYearRange] = useState<[number, number]>([1907, new Date().getFullYear() + 2]);
+    const [pendingYearRange, setPendingYearRange] = useState<[number, number]>([1907, new Date().getFullYear() + 2]);
 
     const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
     const searchQuery = searchParams.get('search') || '';
@@ -70,7 +71,7 @@ const AnimeList = () => {
             if (minEpisodes !== 0 || maxEpisodes !== 1000) {
                 filters['filter[episodeCount]'] = `${minEpisodes}..${maxEpisodes}`;
             }
-            if (minYear !== 1907 || maxYear !== new Date().getFullYear()) {
+            if (minYear !== 1907 || maxYear !== new Date().getFullYear() + 2) {
                 filters['filter[year]'] = `${minYear}..${maxYear}`;
             }
 
@@ -87,8 +88,8 @@ const AnimeList = () => {
             }
 
             if (result?.data) {
-                setAnimeList(result.data);
-                setTotalPages(Math.ceil(result.meta?.count / limit) || 1);
+                setAnimeList(result.data); // Сохраняет список аниме из data в состояние animeList
+                setTotalPages(Math.ceil(result.meta?.count / limit) || 1); //Считает общее количество страниц для пагинации.
             } else {
                 setError('Unexpected response structure.');
             }
@@ -103,6 +104,7 @@ const AnimeList = () => {
     useEffect(() => {
         void loadAnime(pageFromUrl, searchQuery, sortOrder, episodeCountRange, yearRange);
     }, [pageFromUrl, searchQuery, sortOrder, episodeCountRange, yearRange]);
+
     const applyFilters = () => {
         setEpisodeCountRange(pendingEpisodeCountRange);
         setYearRange(pendingYearRange);

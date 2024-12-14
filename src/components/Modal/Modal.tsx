@@ -7,7 +7,7 @@ interface ModalProps {
     children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, onClose } : ModalProps) => {
     return (
         <div className={styles.modalBackdrop} onClick={onClose}>
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
